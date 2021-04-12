@@ -1,8 +1,8 @@
 # State-Sentencing-Project
 
-tic tac toe grid:
-hi!
-
-. . .
-. . .
-. . . 
+1. Abstract
+2. Planned Deliverables
+3. Resources
+4. Tools/Skills
+5. Risks
+6. Ethics
