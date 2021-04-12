@@ -2,3 +2,7 @@
 
 tic tac toe grid:
 hi!
+
+. . .
+. . .
+. . .
