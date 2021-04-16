@@ -47,11 +47,11 @@ Because we tried to search many random states, here are our notes on some states
 
    Arkansas - statewide portal exists, but not all district courts upload their information
 
-   Nevada - online portal for Supreme Court and appeals only - does not contain demographic info or judge
+   Nevada - online portal for Supreme Court and appeals - does not contain demographic info or judge
 
    Arizona - online portal with information for 177 out of 184 courts. Does not have demographic info or judge
 
-   Utah - Appellate cases' information available
+   Utah - Appellate cases' information available, no demographic information
 
    New Mexico - statewide portal exists, but is difficult to search through (requires name/DOB or exact case number)
 
