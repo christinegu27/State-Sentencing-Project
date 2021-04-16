@@ -65,7 +65,7 @@ Because we tried to search many random states, here are our notes on some states
 
    South Carolina - search portal by county, scraping is explicitly banned
 
-   North Carolina - no online portal available
+   North Carolina - there is an online portal, no demographic information for defendants but judge names are there (in pdf form though) https://www.nccourts.gov/courts/supreme-court
 
    Maryland - sitewide portal with demographic information and charge, but no sentence or judge
 
