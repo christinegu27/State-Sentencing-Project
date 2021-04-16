@@ -11,9 +11,6 @@ Regardless of full or partial success, the database will be accompanied by brief
 A final, perhaps less important, goal of ours is to create interactive and interesting data visualizations for people to view and understand the data (similar to the interactive data visualizer that JUSTFAIR had). 
 
 ### Resources Required
-
-### Tools/Skills Required
-
 We expect to be working a lot with web scraping tools such as scrapy. We also want to be cautious about this and not scrape the websites too quickly to avoid being banned, so we might phase the web scraping. 
 
 As for actually dealing with the database, which we will probably do at a later stage, the tools pandas and sqlite are likely to be very helpful. 
@@ -59,6 +56,13 @@ Rhode Island- sitewide portal with judge but not demographic information
 Ohio - no statewide portal
 Illinois - no statewide portal, some limited courts available but lack demographic information and judge
 
+### Tools/Skills Required
+
+We expect to be working a lot with web scraping tools such as scrapy. We also want to be cautious about this and not scrape the websites too quickly to avoid being banned, so we might phase the web scraping. 
+
+As for actually dealing with the database, which we will probably do at a later stage, the tools pandas and sqlite are likely to be very helpful. 
+
+As mentioned earlier, one of our goals is also to create interactive data visualizations at the end, but we need to do more research on this. Some tools we’re aware of for creating interactive visualizations include Plotly express, Tableau and JavaScript so we might have to use these.
 
 ### Risks
  Some states are more transparent than others when publishing their public court records. While we will be researching the data available for multiple states, it is possible that there is incomplete data, or even just data that is incompatible with web-scraping, for the state that will eventually be selected. This will lead to a “partial success” project detailed above. Since we will be managing and joining data from multiple sources that are very different from one another, it is also possible that we will be unable to merge them together.
