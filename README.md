@@ -23,68 +23,72 @@ The states that we have found to be promising in terms of their data as of now i
 
 Because we tried to search many random states, here are our notes on some states’ data availability:
 
-California - not likely: must request record instead of openly access on internet
+<details>
+  <summary>Expand State notes</summary>
+   
+   California - not likely: must request record instead of openly access on internet
 
-Indiana/Oregon/Idaho - does have a search portal but no demographics information
+   Indiana/Oregon/Idaho - does have a search portal but no demographics information
 
-Washington - does not show court sentencing outcome online
+   Washington - does not show court sentencing outcome online
 
-Alabama - unable to access records
+   Alabama - unable to access records
 
-Florida - no statewide portal. Some counties have info on demographics too
+   Florida - no statewide portal. Some counties have info on demographics too
 
-Pennsylvania - statewide portal is there and contains demographic information for some defendants as well. However, the information is in PDF form 
+   Pennsylvania - statewide portal is there and contains demographic information for some defendants as well. However, the information is in PDF form 
 
-Virginia - there is a statewide portal and most, if not all, defendants have demographic information. Just one issue: no judge name (https://eapps.courts.state.va.us/ocis/landing/false) 
-(http://ewsocis1.courts.state.va.us/CJISWeb/Logoff.do)
+   Virginia - there is a statewide portal and most, if not all, defendants have demographic information. Just one issue: no judge name (https://eapps.courts.state.va.us/ocis/landing/false) 
+   (http://ewsocis1.courts.state.va.us/CJISWeb/Logoff.do)
 
-Kentucky - statewide portal exists and some defendants have demographic info too. 
+   Kentucky - statewide portal exists and some defendants have demographic info too. 
 
-New York - portal exists but no demographic information on defendants. 
+   New York - portal exists but no demographic information on defendants. 
 
-Mississippi - portal for Supreme court cases
+   Mississippi - portal for Supreme court cases
 
-Maine - online portal but no demographic information
+   Maine - online portal but no demographic information
 
-Colorado - no statewide portal - must request individual county
+   Colorado - no statewide portal - must request individual county
 
-Arkansas - statewide portal exists, but not all district courts upload their information
+   Arkansas - statewide portal exists, but not all district courts upload their information
 
-Nevada - online portal for Supreme Court and appeals only - does not contain demographic info or judge
+   Nevada - online portal for Supreme Court and appeals only - does not contain demographic info or judge
 
-Arizona - online portal with information for 177 out of 184 courts. Does not have demographic info or judge
+   Arizona - online portal with information for 177 out of 184 courts. Does not have demographic info or judge
 
-Utah - Appellate cases' information available
+   Utah - Appellate cases' information available
 
-New Mexico - statewide portal exists, but is difficult to search through (requires name/DOB or exact case number)
+   New Mexico - statewide portal exists, but is difficult to search through (requires name/DOB or exact case number)
 
-Michigan - portal but no demographic information
+   Michigan - portal but no demographic information
 
-Georgia - must register an account to access
+   Georgia - must register an account to access
 
-Tennessee - portal exists with judge but no demographic information
+   Tennessee - portal exists with judge but no demographic information
 
-West Virginia -  judges have biographies including pictures for the most part, still looking for court records
+   West Virginia -  judges have biographies including pictures for the most part, still looking for court records
 
-South Carolina - search portal by county, scraping is explicitly banned
+   South Carolina - search portal by county, scraping is explicitly banned
 
-North Carolina - no online portal available
+   North Carolina - no online portal available
 
-Maryland - sitewide portal with demographic information and charge, but no sentence or judge
+   Maryland - sitewide portal with demographic information and charge, but no sentence or judge
 
-Delaware - sitewide portal with judge but not demographic information
+   Delaware - sitewide portal with judge but not demographic information
 
-New Hampshire - no statewide portal
+   New Hampshire - no statewide portal
 
-Connecticut - sitewide portal very easy to navigate, but lacks demographic information and judge 
+   Connecticut - sitewide portal very easy to navigate, but lacks demographic information and judge 
 
-New Jersey - exists, but requires specific searches and a recaptcha
+   New Jersey - exists, but requires specific searches and a recaptcha
 
-Rhode Island- sitewide portal with judge but not demographic information
+   Rhode Island- sitewide portal with judge but not demographic information
 
-Ohio - no statewide portal
+   Ohio - no statewide portal
 
-Illinois - no statewide portal, some limited courts available but lack demographic information and judge
+   Illinois - no statewide portal, some limited courts available but lack demographic information and judge
+</details>
 
 ### Tools/Skills Required
 
