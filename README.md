@@ -11,12 +11,6 @@ Regardless of full or partial success, the database will be accompanied by brief
 A final, perhaps less important, goal of ours is to create interactive and interesting data visualizations for people to view and understand the data (similar to the interactive data visualizer that JUSTFAIR had). 
 
 ### Resources Required
-We expect to be working a lot with web scraping tools such as scrapy. We also want to be cautious about this and not scrape the websites too quickly to avoid being banned, so we might phase the web scraping. 
-
-As for actually dealing with the database, which we will probably do at a later stage, the tools pandas and sqlite are likely to be very helpful. 
-
-As mentioned earlier, one of our goals is also to create interactive data visualizations at the end, but we need to do more research on this. Some tools we’re aware of for creating interactive visualizations include Plotly express, Tableau and JavaScript so we might have to use these.
-
 The main resource that we require is sufficient data. We need a website/a couple of websites where we can get data about the state’s criminal records. Some examples are: https://public.courts.in.gov/mycase/#/vw/Search or https://dw.courts.wa.gov/?fa=home.namesearchTerms. These are freely available but not every state has such a portal, and even those that do have inconsistencies in the stored data. However, we are going to be working on one state -- at least to begin with -- so the inconsistencies shouldn’t be an issue. Our goal is to include data about the demographics of the defendants as well as the judges so we are also looking for ways to gather data about the judges and their biographical information. 
  
 The states that we have found to be promising in terms of their data as of now include Virginia  (race, gender, and age for most defendants), Kentucky (race, gender, and age for some defendants), and Minnesota (gender and age). 
