@@ -71,13 +71,13 @@ Because we tried to search many random states, here are our notes on some states
 
    Delaware - sitewide portal with judge but not demographic information
 
-   New Hampshire - no statewide portal
+   New Hampshire - statewide portal does seem to exist (https://odypa.nhecourt.us/portal) but requires a login
 
    Connecticut - sitewide portal very easy to navigate, but lacks demographic information and judge 
 
    New Jersey - exists, but requires specific searches and a recaptcha
 
-   Rhode Island- sitewide portal with judge but not demographic information
+   Rhode Island- sitewide portal with judge and sentencing information (looks neat to scrape) but no demographic information and requires a recaptcha
 
    Ohio - no statewide portal
 
