@@ -1,4 +1,4 @@
-# State Sentencing Project Pitch
+# State Sentencing Project Proposal
 
 ### Abstract
 With the rise of social justice movements focusing on racial discrimination, attention has been cast on the criminal justice system, where non-white defendants may receive harsher punishments compared to their white counterparts. Unfortunately, there is no single resource containing the information needed to verify this claim at the state-level, where most of the sentencing takes place in the United States. The goal of this project is to gather data from various web sources and consolidate them into one, publicly available dataset detailing court records on the crime, judge, and the demographic information of both the defendant and the judge for a given state.
