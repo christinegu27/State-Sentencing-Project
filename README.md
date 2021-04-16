@@ -24,10 +24,15 @@ The states that we have found to be promising in terms of their data as of now i
 Because we tried to search many random states, here are our notes on some states’ data availability:
 
 California - not likely: must request record instead of openly access on internet
+
 Indiana/Oregon/Idaho - does have a search portal but no demographics information
+
 Washington - does not show court sentencing outcome online
+
 Alabama - unable to access records
+
 Florida - no statewide portal. Some counties have info on demographics too
+
 Pennsylvania - statewide portal is there and contains demographic information for some defendants as well. However, the information is in PDF form 
 Virginia - there is a statewide portal and most, if not all, defendants have demographic information. Just one issue: no judge name (https://eapps.courts.state.va.us/ocis/landing/false) 
 (http://ewsocis1.courts.state.va.us/CJISWeb/Logoff.do)
@@ -73,7 +78,9 @@ The main problem we can foresee with our project is its potential use for politi
 ### Tentative Timeline
 
 Week 4: A concrete decision on a state and consolidating (links to) resources, begin web scraping. (This is what we had originally planned, but we have pretty much decided our state now -- Virginia. So, we’re hoping to get started web scraping very soon!)
+
 Week 6: Finish web scraping of crime records (including defendants’ demographics), possibly get information on judges, either personal or aggregate statistics. Should have by this time: somewhat readable/organized CSV file of court records.
+
 Week 8: Compiled dataset of sentencing information with connections to have available for writing reports.
 
 What we have achieved till now: We have done our preliminary research, which includes reading JUSTFAIR’s paper and their methodology, checking and searching for states that have usable data, and are currently trying to learn about potential web scraping tools we can use to scrape search portals. 
