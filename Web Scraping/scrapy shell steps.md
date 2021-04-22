@@ -7,7 +7,7 @@
 			"courtLevels":[],
  			"divisions":["Criminal/Traffic"],
  			"selectedCourts":[],
- 			"searchString":["victoria johnson smith"],
+ 			"searchString":["name here"],
  			"searchBy":"N"
  		}
 5. search = scrapy.http.JsonRequest(url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",method = "POST", data = searchRequestField)
@@ -26,10 +26,6 @@
 	- probation? = case_details['disposition']['probationInfo']['probationType']
 	- participant = case_details['caseParticipant'][0] - possible that there are more than 1
 		- participant_name = participant['contactInformation']['personName']
-			- {'personGivenName': 'VICTORIA',
-	 			'personMiddleName': 'SMITH',
-	 			'personSurName': 'JOHNSON',
-	 			'fullName': 'JOHNSON, VICTORIA SMITH'}
 		- participant_demo = participant['personalDetails']
 			- {'race': 'W', 'gender': 'F', 'maskedBirthDate': '02/20'}
 	- hearing = case_details['caseHearing'][0] - possible that there are more than 1
