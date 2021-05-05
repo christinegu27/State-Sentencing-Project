@@ -4,7 +4,7 @@ import scrapy
 # definitely do not crawl - everything is basically pseudocode and nothing actually works as intended
 
 class case_scraper(scrapy.Spider):
-	name = "casespresentation"
+	name = "cases_presentation"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis/search"]
 
@@ -25,14 +25,16 @@ class case_scraper(scrapy.Spider):
 
 	#enters search terms
 	def search(self, response):
-		case_scraper.searchRequestField["endingIndex"] = 0
+		names = ["victoria miller", "victoria johnson smith"]
 		#eventually, will have to do some type of looping with the search string to hit all possible names
-		case_scraper.searchRequestField["searchString"] = ['karen miller']
-		yield scrapy.http.JsonRequest(
-			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-			method = "POST",
-			data = case_scraper.searchRequestField,
-			callback = self.parse_cases)
+		for name in names:
+			case_scraper.searchRequestField["searchString"] = [name]
+			case_scraper.searchRequestField["endingIndex"] = 0
+			yield scrapy.http.JsonRequest(
+				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+				method = "POST",
+				data = case_scraper.searchRequestField,
+				callback = self.parse_cases)
 	
 	#sends request to access case details for all 30-ish results generated
 	def parse_cases(self, response):
