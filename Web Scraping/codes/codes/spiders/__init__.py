@@ -7,7 +7,6 @@ class case_scraper(scrapy.Spider):
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis-rest/api/public/getCourtsCodeDetails"]
 
-	#accepts terms and conditions
 	def parse(self, response):
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/getCourtsCodeDetails",
