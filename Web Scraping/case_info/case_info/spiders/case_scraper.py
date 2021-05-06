@@ -134,6 +134,11 @@ class case_scraper(scrapy.Spider):
 
 		sentence=case_details['sentencingInformation']['sentence']
 
+		if "amendedCharge" in case_details['caseCharge']:
+			charge = "amendedCharge"
+		else:
+			charge = "originalCharge"
+
 		try:
 			probation = case_details['disposition']['probationInfo']
 			probation_type = probation['probation_type']
@@ -154,8 +159,9 @@ class case_scraper(scrapy.Spider):
 			'Name': case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'],
 			'Court': case_details['caseCourt']['fipsCode'],
 			'Last Hearing Date': case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate'],
-			'Charge':case_details['caseCharge']['originalCharge']['chargeDescriptionText'],
-			'Charge Code': case_details['caseCharge']['originalCharge']['caseTypeCode'],
+			'Charge':case_details['caseCharge'][charge]['chargeDescriptionText'],
+			'Charge Code': case_details['caseCharge'][charge]['caseTypeCode'],
+			'Charge Class': case_details['caseCharge'][charge]['classCode'],
 			'Sentence Y': sentence.get('years'),
 			'Sentence M': sentence.get('months'),
 			'Sentence D': sentence.get('days'),
@@ -163,7 +169,7 @@ class case_scraper(scrapy.Spider):
 			'Probation Y':probation_years,
 			'Probation M':probation_months,
 			'Probation D':probation_days,
-			'Race': case_details['caseParticipant'][0]['personalDetails']['race'], #
+			'Race': case_details['caseParticipant'][0]['personalDetails'].get('race'), #
 			'Gender': case_details['caseParticipant'][0]['personalDetails']['gender'],
 			'Judge': judge
 			}
