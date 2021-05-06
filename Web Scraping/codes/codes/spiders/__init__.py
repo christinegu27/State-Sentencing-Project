@@ -2,9 +2,6 @@ import scrapy
 from scrapy.shell import inspect_response
 import copy
 
-# a general idea of what the spider will eventually do
-# definitely do not crawl - everything is basically pseudocode and nothing actually works as intended
-
 class case_scraper(scrapy.Spider):
 	name = "codes"
 
