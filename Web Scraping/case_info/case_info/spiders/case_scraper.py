@@ -28,7 +28,7 @@ class case_scraper(scrapy.Spider):
 								"selectedCourts":[],
 								"searchBy":"N", 
 								"searchString": [search],
-								"endingIndex" = 0},
+								"endingIndex" : 0},
 						callback = self.check_results,
 						cb_kwargs = dict(search_name = search))
 
