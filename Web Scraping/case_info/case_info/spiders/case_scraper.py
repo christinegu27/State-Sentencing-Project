@@ -1,21 +1,11 @@
 import scrapy
-from scrapy.shell import inspect_response
-import copy
+#from scrapy.shell import inspect_response
 
-# a general idea of what the spider will eventually do
-# definitely do not crawl - everything is basically pseudocode and nothing actually works as intended
 
 class case_scraper(scrapy.Spider):
 	name = "cases"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis/search"]
-
-	searchRequestField = {
-			"courtLevels":["C"], #circuit courts only
-			"divisions":["Criminal/Traffic"],
-			"selectedCourts":[],
-			"searchBy":"N" #searching by name
-		}
 
 	letters = "abcdefghijklmnopqrstuvwxyz"
 
@@ -25,38 +15,34 @@ class case_scraper(scrapy.Spider):
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
 
-	#enters search terms
+	#enters search terms looping through alphabet
 	def search(self, response):
-		case_scraper.searchRequestField["endingIndex"] = 0
-		# for letter1 in case_scraper.letters:
-		# 	for letter2 in case_scraper.letters:
-		# 		search_name = letter1+letter2
-		# 		case_scraper.searchRequestField["searchString"] = [search_name]
-		# 		yield scrapy.http.JsonRequest(
-		# 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-		# 			method = "POST",
-		# 			data = case_scraper.searchRequestField,
-		# 			callback = self.check_results)
-		case_scraper.searchRequestField["searchString"] = ["sto"]
-		yield scrapy.http.JsonRequest(
-				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-				method = "POST",
-				data = case_scraper.searchRequestField,
-				callback = self.check_results,
-				cb_kwargs = dict(search_name = case_scraper.searchRequestField["searchString"][0]))
+		for letter1 in case_scraper.letters:
+			for letter2 in case_scraper.letters:
+				search = letter1+letter2
+				yield scrapy.http.JsonRequest(
+						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+						method = "POST",
+						data = {"courtLevels":["C"], 
+								"divisions":["Criminal/Traffic"],
+								"selectedCourts":[],
+								"searchBy":"N", 
+								"searchString": [search],
+								"endingIndex" = 0},
+						callback = self.check_results,
+						cb_kwargs = dict(search_name = search))
 
+	#checks if any matching results
 	def check_results(self, response, search_name):
-		
 		#go back and try next letter combo if no matching results
 		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
 			print(search_name, "...nothing here")
 			return
-
 		else: 
 			yield scrapy.http.JsonRequest(
 					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
 					method = "POST",
-					data = {"courtLevels":["C"], #circuit courts only
+					data = {"courtLevels":["C"], 
 								"divisions":["Criminal/Traffic"],
 								"selectedCourts":[],
 								"searchBy":"N",
@@ -83,7 +69,6 @@ class case_scraper(scrapy.Spider):
 							"endingIndex":0},
 					callback = self.check_results,
 					cb_kwargs = dict(search_name = current_search))
-
 		else:
 			print("parsing cases...", search_name)
 			yield scrapy.http.JsonRequest(
@@ -99,7 +84,6 @@ class case_scraper(scrapy.Spider):
 					cb_kwargs = dict(search_name = search_name))
 
 	def parse_cases(self, response, search_name):
-		#inspect_response(response, self)
 		case_results = response.json()['context']['entity']['payload']['searchResults']
 		for case in case_results:
 			yield scrapy.http.JsonRequest(
@@ -107,7 +91,6 @@ class case_scraper(scrapy.Spider):
 				method = "POST",
 				data = case,
 				callback = self.case_details)
-
 		#repeats for all matching cases based on search criteria
 		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
 			last_index = response.json()['context']['entity']['payload']['lastResponseIndex']
@@ -134,6 +117,7 @@ class case_scraper(scrapy.Spider):
 
 		sentence=case_details['sentencingInformation']['sentence']
 
+		#only gets final charge 
 		if "amendedCharge" in case_details['caseCharge']:
 			charge = "amendedCharge"
 		else:
@@ -170,7 +154,7 @@ class case_scraper(scrapy.Spider):
 			'Probation Y':probation_years,
 			'Probation M':probation_months,
 			'Probation D':probation_days,
-			'Race': case_details['caseParticipant'][0]['personalDetails'].get('race'), #
+			'Race': case_details['caseParticipant'][0]['personalDetails'].get('race'), 
 			'Gender': case_details['caseParticipant'][0]['personalDetails']['gender'],
 			'Judge': judge
 			}
