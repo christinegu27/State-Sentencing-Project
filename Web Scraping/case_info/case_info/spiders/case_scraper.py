@@ -74,7 +74,7 @@ class case_scraper(scrapy.Spider):
 			yield scrapy.http.JsonRequest(
 					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
 					method = "POST",
-					data = {"courtLevels":["C"], #circuit courts only
+					data = {"courtLevels":["C"], 
 							"divisions":["Criminal/Traffic"],
 							"selectedCourts":[],
 							"searchBy":"N",
@@ -125,7 +125,7 @@ class case_scraper(scrapy.Spider):
 
 		try:
 			probation = case_details['disposition']['probationInfo']
-			probation_type = probation['probation_type']
+			probation_type = probation['probationType']
 			probation_years = probation['duration'].get('years')
 			probation_months = probation['duration'].get('months')
 			probation_days = probation['duration'].get('days')
@@ -144,7 +144,7 @@ class case_scraper(scrapy.Spider):
 			'Court': case_details['caseCourt']['fipsCode'],
 			'Last Hearing Date': case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate'],
 			'Charge':case_details['caseCharge'][charge]['chargeDescriptionText'],
-			'Charge Code': case_details['caseCharge'][charge]['caseTypeCode'],
+			'Charge Code': case_details['caseCharge'][charge].get('caseTypeCode'),
 			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'),
 			'Charge Code Section': case_details['caseCharge'][charge]['codeSection'],
 			'Concluded By': case_details['disposition']['concludedByCode'],
@@ -156,6 +156,6 @@ class case_scraper(scrapy.Spider):
 			'Probation M':probation_months,
 			'Probation D':probation_days,
 			'Race': case_details['caseParticipant'][0]['personalDetails'].get('race'), 
-			'Gender': case_details['caseParticipant'][0]['personalDetails']['gender'],
+			'Gender': case_details['caseParticipant'][0]['personalDetails'].get('gender'),
 			'Judge': judge
 			}
