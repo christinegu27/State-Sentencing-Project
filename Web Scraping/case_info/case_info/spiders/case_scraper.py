@@ -146,7 +146,7 @@ class case_scraper(scrapy.Spider):
 			'Charge':case_details['caseCharge'][charge]['chargeDescriptionText'],
 			'Charge Code': case_details['caseCharge'][charge].get('caseTypeCode'),
 			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'),
-			'Charge Code Section': case_details['caseCharge'][charge]['codeSection'],
+			'Charge Code Section': case_details['caseCharge'][charge].get('codeSection'),
 			'Concluded By': case_details['disposition']['concludedByCode'],
 			'Sentence Y': sentence.get('years'),
 			'Sentence M': sentence.get('months'),
