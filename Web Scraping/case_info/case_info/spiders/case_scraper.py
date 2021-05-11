@@ -36,7 +36,7 @@ class case_scraper(scrapy.Spider):
 	def check_results(self, response, search_name):
 		#go back and try next letter combo if no matching results
 		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
-			print(search_name, "...nothing here")
+			#print(search_name, "...nothing here")
 			return
 		else: 
 			yield scrapy.http.JsonRequest(
@@ -53,7 +53,7 @@ class case_scraper(scrapy.Spider):
 
 	#checks if current search string has too many results
 	def check_length(self, response, search_name):
-		print(search_name)
+		#print(search_name)
 		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
 			for extra_letter in case_scraper.letters:
 				base_name = search_name
@@ -70,7 +70,7 @@ class case_scraper(scrapy.Spider):
 					callback = self.check_results,
 					cb_kwargs = dict(search_name = current_search))
 		else:
-			print("parsing cases...", search_name)
+			#print("parsing cases...", search_name)
 			yield scrapy.http.JsonRequest(
 					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
 					method = "POST",
