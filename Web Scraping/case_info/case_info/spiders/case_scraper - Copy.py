@@ -3,41 +3,65 @@ import scrapy
 
 
 class case_scraper(scrapy.Spider):
-	name = "cases"
+	name = "cases_2"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis/search"]
 
 	letters = "abcdefghijklmnopqrstuvwxyz"
 
-	#accepts terms and conditions
 	def parse(self, response):
+		"""
+		Send request "acceptint" TandC since website automaticlly redirects to the 
+		TandC page when starting spider
+		"""
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
 
-	#enters search terms looping through alphabet
 	def search(self, response):
+		"""
+		Sends request to generate cases matching a specified search.
+		Starts sith all possible 2 letter permutations.
+		"""
 		for letter1 in case_scraper.letters:
 			for letter2 in case_scraper.letters:
-				search = letter1+letter2
+				search = letter1+letter2 
+				#finds cases where the first or middle or last name starts with the search string given
 				yield scrapy.http.JsonRequest(
 						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
 						method = "POST",
-						data = {"courtLevels":["C"], 
-								"divisions":["Criminal/Traffic"],
-								"selectedCourts":[],
-								"searchBy":"N", 
+						data = {"courtLevels":["C"], #searching circuit courts only
+								"divisions":["Criminal/Traffic"], #limiting search to Criminal/Traffic cases only
+								"selectedCourts":[], #open to all available courts in Virginia
+								"searchBy":"N", #searching by name (not case number of date)
 								"searchString": [search],
-								"endingIndex" : 0},
+								"endingIndex" : 9930}, #jumps straight to the end 
 						callback = self.check_results,
-						cb_kwargs = dict(search_name = search))
+						cb_kwargs = dict(search_name = search)) #saves current search string for later use
 
-	#checks if any matching results
+	
 	def check_results(self, response, search_name):
-		#go back and try next letter combo if no matching results
-		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
-			#print(search_name, "...nothing here")
-			return
+		"""
+		Checks if current search string returns too many results and repeats search after adding
+		another letter. If not too many results, calls function to start parsing cases.
+		search_name: current search name string passed from request
+		"""
+		#add letter and try new combo if too many records returned
+		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
+			for extra_letter in case_scraper.letters:				
+				base_name = search_name
+				current_search = search_name+extra_letter
+				yield scrapy.http.JsonRequest(
+					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+					method = "POST",
+					data = {"courtLevels":["C"], 
+							"divisions":["Criminal/Traffic"],
+							"selectedCourts":[],
+							"searchBy":"N",
+							"searchString":[current_search],
+							"endingIndex":9930}, 
+					callback = self.check_results,
+					cb_kwargs = dict(search_name = current_search))
 		else: 
 			yield scrapy.http.JsonRequest(
 					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
@@ -47,43 +71,15 @@ class case_scraper(scrapy.Spider):
 								"selectedCourts":[],
 								"searchBy":"N",
 								"searchString":[search_name],
-								"endingIndex":9930},
-					callback = self.check_length,
-					cb_kwargs = dict(search_name = search_name))
-
-	#checks if current search string has too many results
-	def check_length(self, response, search_name):
-		#print(search_name)
-		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
-			for extra_letter in case_scraper.letters:
-				base_name = search_name
-				current_search = search_name+extra_letter
-				yield scrapy.http.JsonRequest(
-					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
-					data = {"courtLevels":["C"], #circuit courts only
-							"divisions":["Criminal/Traffic"],
-							"selectedCourts":[],
-							"searchBy":"N",
-							"searchString":[current_search],
-							"endingIndex":0},
-					callback = self.check_results,
-					cb_kwargs = dict(search_name = current_search))
-		else:
-			#print("parsing cases...", search_name)
-			yield scrapy.http.JsonRequest(
-					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
-					data = {"courtLevels":["C"], 
-							"divisions":["Criminal/Traffic"],
-							"selectedCourts":[],
-							"searchBy":"N",
-							"searchString":[search_name],
-							"endingIndex":0},
+								"endingIndex":0},
 					callback = self.parse_cases,
 					cb_kwargs = dict(search_name = search_name))
 
 	def parse_cases(self, response, search_name):
+		#no results for search
+		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
+			return
+
 		case_results = response.json()['context']['entity']['payload']['searchResults']
 		for case in case_results:
 			yield scrapy.http.JsonRequest(
@@ -91,13 +87,14 @@ class case_scraper(scrapy.Spider):
 				method = "POST",
 				data = case,
 				callback = self.case_details)
+
 		#repeats for all matching cases based on search criteria
 		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
 			last_index = response.json()['context']['entity']['payload']['lastResponseIndex']
 			yield scrapy.http.JsonRequest(
 				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
 				method = "POST",
-				data = {"courtLevels":["C"], #circuit courts only
+				data = {"courtLevels":["C"],
 						"divisions":["Criminal/Traffic"],
 						"selectedCourts":[],
 						"searchBy":"N",
@@ -113,6 +110,7 @@ class case_scraper(scrapy.Spider):
 		try:
 			case_details['sentencingInformation']
 		except KeyError:
+			print("skipping case: ", case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'])
 			return
 
 		sentence=case_details['sentencingInformation']['sentence']
