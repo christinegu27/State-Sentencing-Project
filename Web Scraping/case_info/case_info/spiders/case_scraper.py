@@ -1,5 +1,4 @@
 import scrapy
-from scrapy.crawler import CrawlerProcess
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"
@@ -7,14 +6,18 @@ class CaseSpider(scrapy.Spider):
 	letters = "abcdefghijklmnopqrstuvwxyz"
 
 	def __init__(self, court_code, *args, **kwargs):
-		super(CaseSpider, self).__init__(*args, **kwargs)
+		"""
+		Initializes the spider as normal, but adds an instance variable
+		keeping track of the court this spider will run
+		"""
+		super(CaseSpider, self).__init__(*args, **kwargs) #calls scrapy.Spider initializer
 		self.court = court_code
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis/search"]
 
 	def parse(self, response):
 		"""
-		Send request "acceptint" TandC since website automaticlly redirects to the 
+		Send request accepting TandC since website automaticlly redirects to the 
 		TandC page when starting spider
 		"""
 		yield scrapy.Request(
@@ -26,8 +29,8 @@ class CaseSpider(scrapy.Spider):
 		Sends request to generate cases matching a specified search.
 		Starts sith all possible 2 letter permutations.
 		"""
-		for letter1 in case_scraper.letters:
-			for letter2 in case_scraper.letters:
+		for letter1 in CaseSpider.letters:
+			for letter2 in CaseSpider.letters:
 				search = letter1+letter2 
 				#finds cases where the first or middle or last name starts with the search string given
 				yield scrapy.http.JsonRequest(
@@ -48,9 +51,10 @@ class CaseSpider(scrapy.Spider):
 		another letter. If not too many results, calls function to start parsing cases.
 		search_name: current search name string passed from request
 		"""
-		#add letter and try new combo if too many records returned
+		#add letter and try new combo if too many records records returned
+		#continues looping until letters return less than 9960 results
 		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
-			for extra_letter in case_scraper.letters:				
+			for extra_letter in CaseSpider.letters:				
 				base_name = search_name
 				current_search = search_name+extra_letter
 				yield scrapy.http.JsonRequest(
@@ -78,20 +82,29 @@ class CaseSpider(scrapy.Spider):
 					cb_kwargs = dict(search_name = search_name))
 
 	def parse_cases(self, response, search_name):
-		#no results for search
+		"""
+		Gathers case results and sends request to get more details. If there are more
+		results, imitate a "load more" button by requesting the next set of cases
+		search_name: current name string being searched
+		"""
+		#no results returned for the given search
 		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
 			return
 
+		#each case has a matching json, basically stored as a list of dictionaries
 		case_results = response.json()['context']['entity']['payload']['searchResults']
-		for case in case_results:
+
+		for case in case_results: #first loops through all cases matching search
 			yield scrapy.http.JsonRequest(
 				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/getCaseDetails",
 				method = "POST",
-				data = case,
+				data = case, #each entry is the json data in the request sent for more details 
 				callback = self.case_details)
 
-		#repeats for all matching cases based on search criteria
+		#checks if there are more results to be loaded
+		#"recursively" calls parsec_cases until all cases viewed
 		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
+			#the index of the first case in the next set results
 			last_index = response.json()['context']['entity']['payload']['lastResponseIndex']
 			yield scrapy.http.JsonRequest(
 				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
@@ -101,14 +114,18 @@ class CaseSpider(scrapy.Spider):
 						"selectedCourts":[self.court],
 						"searchBy":"N",
 						"searchString":[search_name],
-						"endingIndex":last_index},
+						"endingIndex":last_index}, #sends new request loading next set of results
 				callback = self.parse_cases,
 				cb_kwargs = dict(search_name = search_name))
 
 	def case_details(self, response):
+		"""
+		Gets relevant data from each case's detailed JSON file, then yields results
+		as a dictionary 
+		"""
 		case_details = response.json()['context']['entity']['payload'] 
 
-		#skip case if no sentence given
+		#skip case if there is no sentence
 		try:
 			case_details['sentencingInformation']
 		except KeyError:
@@ -117,41 +134,42 @@ class CaseSpider(scrapy.Spider):
 
 		sentence=case_details['sentencingInformation']['sentence']
 
-		#only gets final charge 
+		#only gets final charge if charge was amended
 		if "amendedCharge" in case_details['caseCharge']:
 			charge = "amendedCharge"
 		else:
 			charge = "originalCharge"
 
-		try:
+		try: #checks if defendant was granted probation
 			probation = case_details['disposition']['probationInfo']
 			probation_type = probation['probationType']
 			probation_years = probation['duration'].get('years')
 			probation_months = probation['duration'].get('months')
 			probation_days = probation['duration'].get('days')
-		except KeyError:
+		except KeyError: #otherwise set probation Y/M/D to 0
 			probation_type = "NP"
 			probation_years = probation_months = probation_days = 0
 
-		try:
+		try: #checks if case stored the presiding judge's ID (initials)
 			judge = case_details['caseHearing'][0]['hearingJudge']['judicialOfficialBarMembership']['judicialOfficialBarIdentification']['identificationID']
 		except KeyError:
 			judge = "N/A"
 
 		yield{
 			'Case Number': case_details['caseTrackingID'],
-			'Name': case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'],
-			'Court': case_details['caseCourt']['fipsCode'],
+			'Name': case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'], #defendant name
+			'Court': case_details['caseCourt']['fipsCode'], #circuit court code
 			'Last Hearing Date': case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate'],
 			'Charge':case_details['caseCharge'][charge]['chargeDescriptionText'],
-			'Charge Code': case_details['caseCharge'][charge].get('caseTypeCode'),
-			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'),
-			'Charge Code Section': case_details['caseCharge'][charge].get('codeSection'),
-			'Concluded By': case_details['disposition']['concludedByCode'],
+			'Charge Code': case_details['caseCharge'][charge].get('caseTypeCode'), #either Felony or Misdeamor
+			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'), #charge class (O, class 1, 2, etc.)
+			#specific charge code as detailed in official "Code of Virginia"
+			'Charge Code Section': case_details['caseCharge'][charge].get('codeSection'), 
+			'Concluded By': case_details['disposition']['concludedByCode'], #guilty plea, trial with jury, etc.
 			'Sentence Y': sentence.get('years'),
 			'Sentence M': sentence.get('months'),
 			'Sentence D': sentence.get('days'),
-			'Probation Type': probation_type,
+			'Probation Type': probation_type, # none granted, supervised, unsupervised, etc
 			'Probation Y':probation_years,
 			'Probation M':probation_months,
 			'Probation D':probation_days,
