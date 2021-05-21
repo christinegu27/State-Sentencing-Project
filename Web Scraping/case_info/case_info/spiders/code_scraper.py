@@ -1,8 +1,7 @@
 import scrapy
 from scrapy.shell import inspect_response
-import copy
 
-class case_scraper(scrapy.Spider):
+class code_scraper(scrapy.Spider):
 	name = "codes"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis-rest/api/public/getCourtsCodeDetails"]
@@ -27,3 +26,16 @@ class case_scraper(scrapy.Spider):
 				'Code Description': codes['description'],
 				'Code Type': codes['codeType'],
 				}			
+
+class court_codes(scrapy.Spider):
+	name = "court_codes"
+
+	start_urls = ["https://eapps.courts.state.va.us/ocis-rest/api/public/getLookupCodeDetails"]
+
+	def parse(self, response):
+		court_details = response.json()['context']['entity']['payload']['allCourts']
+		for court in court_details:
+			yield{
+				'Court Name': court['courtName'],
+				'Court ID': court['fipsCode4']
+				}		
