@@ -1,4 +1,4 @@
-# Scrapy settings for judges_ind project
+# Scrapy settings for judge_info project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'judges_ind'
+BOT_NAME = 'judgescraper'
 
-SPIDER_MODULES = ['judges_ind.spiders']
-NEWSPIDER_MODULE = 'judges_ind.spiders'
+SPIDER_MODULES = ['judgescraper.spiders']
+NEWSPIDER_MODULE = 'judgescraper.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'judges_ind (+http://www.yourdomain.com)'
+#USER_AGENT = 'judge_info (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'judges_ind.middlewares.JudgesIndSpiderMiddleware': 543,
+#    'judge_info.middlewares.JudgeInfoSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'judges_ind.middlewares.JudgesIndDownloaderMiddleware': 543,
+#    'judge_info.middlewares.JudgeInfoDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'judges_ind.pipelines.JudgesIndPipeline': 300,
+#    'judge_info.pipelines.JudgeInfoPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
