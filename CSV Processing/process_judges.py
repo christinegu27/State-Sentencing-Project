@@ -5,7 +5,6 @@ judges_missing = pd.read_csv(r"C:\Users\chris\Documents\GitHub\State-Sentencing-
 
 #Adds the judges from missing courts to the general file
 judges = judges_original.append(judges_missing, ignore_index = True) 
-judges = judges.fillna("Accomack") #the judges with missing courts are from Accomack
 
 #Removes roman numerals from names because they aren't used in determining initials
 judges['Judge'] =judges['Judge'].str.replace('I','')
