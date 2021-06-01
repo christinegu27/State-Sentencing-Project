@@ -6,16 +6,6 @@ judges_missing = pd.read_csv(r"C:\Users\chris\Documents\GitHub\State-Sentencing-
 #Adds the judges from missing courts to the general file
 judges = judges_original.append(judges_missing, ignore_index = True) 
 
-#Removes roman numerals from names because they aren't used in determining initials
-judges['Judge'] =judges['Judge'].str.replace('I','')
-judges['Judge'] =judges['Judge'].str.replace('II','')
-judges['Judge'] =judges['Judge'].str.replace('III','')
-judges['Judge'] =judges['Judge'].str.replace('IV','')
-judges['Judge'] =judges['Judge'].str.replace('V','')
-judges['Judge'] =judges['Judge'].str.replace('Jr.','')
-#Removes the title 
-judges['Judge'] =judges['Judge'].str.replace('Hon. ','')
-judges['Judge'] =judges['Judge'].str.replace('Hon ','')
 #Removes punctuation because it isn't used 
 judges['Judge'] =judges['Judge'].str.replace('.','')
 judges['Judge'] =judges['Judge'].str.replace("'",'')
@@ -23,6 +13,16 @@ judges['Judge'] =judges['Judge'].str.replace("-",' ')
 judges['Judge'] =judges['Judge'].str.replace("~",'')
 judges['Judge'] =judges['Judge'].str.replace("*",'')
 judges['Judge'] =judges['Judge'].str.replace(",",'')
+#Removes roman numerals from names because they aren't used in determining initials
+judges['Judge'] =judges['Judge'].str.replace(' I ','')
+judges['Judge'] =judges['Judge'].str.replace('II','')
+judges['Judge'] =judges['Judge'].str.replace('III','')
+judges['Judge'] =judges['Judge'].str.replace('IV','')
+judges['Judge'] =judges['Judge'].str.replace(' V ','')
+judges['Judge'] =judges['Judge'].str.replace('Jr.','')
+#Removes the title 
+judges['Judge'] =judges['Judge'].str.replace('Hon. ','')
+judges['Judge'] =judges['Judge'].str.replace('Hon ','')
 #Removes mentions of chief/presiding judges
 judges['Judge'] =judges['Judge'].str.replace("Chief Judge",'')
 judges['Judge'] =judges['Judge'].str.replace("Presiding Judge",'')
