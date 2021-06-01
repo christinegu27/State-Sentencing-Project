@@ -7,10 +7,11 @@ judges_missing = pd.read_csv(r"C:\Users\chris\Documents\GitHub\State-Sentencing-
 judges = judges_original.append(judges_missing, ignore_index = True) 
 
 #Removes roman numerals from names because they aren't used in determining initials
+judges['Judge'] =judges['Judge'].str.replace('I','')
 judges['Judge'] =judges['Judge'].str.replace('II','')
 judges['Judge'] =judges['Judge'].str.replace('III','')
 judges['Judge'] =judges['Judge'].str.replace('IV','')
-judges['Judge'] =judges['Judge'].str.replace(' V ','')
+judges['Judge'] =judges['Judge'].str.replace('V','')
 judges['Judge'] =judges['Judge'].str.replace('Jr.','')
 #Removes the title 
 judges['Judge'] =judges['Judge'].str.replace('Hon. ','')
