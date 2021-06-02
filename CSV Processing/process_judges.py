@@ -14,11 +14,11 @@ judges['Judge'] =judges['Judge'].str.replace("~",'')
 judges['Judge'] =judges['Judge'].str.replace("*",'')
 judges['Judge'] =judges['Judge'].str.replace(",",'')
 #Removes roman numerals from names because they aren't used in determining initials
-judges['Judge'] =judges['Judge'].str.replace(' I ','')
+judges['Judge'] =judges['Judge'].str.replace('I','')
 judges['Judge'] =judges['Judge'].str.replace('II','')
 judges['Judge'] =judges['Judge'].str.replace('III','')
 judges['Judge'] =judges['Judge'].str.replace('IV','')
-judges['Judge'] =judges['Judge'].str.replace(' V ','')
+judges['Judge'] =judges['Judge'].str.replace('V','')
 judges['Judge'] =judges['Judge'].str.replace('Jr.','')
 #Removes the title 
 judges['Judge'] =judges['Judge'].str.replace('Hon. ','')
