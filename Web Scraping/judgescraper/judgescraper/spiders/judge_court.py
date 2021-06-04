@@ -42,7 +42,7 @@ class JudgeSpider(scrapy.Spider):
 
 		next_page = response.css("td.f a")[2].attrib["href"]
 
-		if next_page:
+		if next_page: #follow link to next page if it exists
 			yield scrapy.Request(next_page, callback = self.parse_new_contents)
 		
 	def parse_old_contents(self,response): #gets judges from old version of website
@@ -66,6 +66,6 @@ class JudgeSpider(scrapy.Spider):
 
 		prev_page = response.xpath('//*[@class = "d"]//td[@class = "b"]//a/@href').extract_first()
 
-		if prev_page:
+		if prev_page: #follows link to previous page if it exists
 			yield scrapy.Request(prev_page, callback = self.parse_old_contents)
 

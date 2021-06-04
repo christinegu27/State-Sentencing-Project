@@ -1,17 +1,13 @@
 import scrapy
-from scrapy.shell import inspect_response
 
 class code_scraper(scrapy.Spider):
+	#codes used in the JSON for each case's details
 	name = "codes"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis-rest/api/public/getCourtsCodeDetails"]
 
 	def parse(self, response):
-		yield scrapy.Request(
-			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/getCourtsCodeDetails",
-			callback = self.code_details)
-
-	def code_details(self, response):
+		#gets to the relevant layer in the response json
 		code_details = response.json()['context']['entity']['payload']
 		for codes in code_details:
 			try:
@@ -21,13 +17,15 @@ class code_scraper(scrapy.Spider):
 
 
 			yield{
-				'Court Category': codes['courtCategory'],
-				'Code ID': codes['codeId'],
-				'Code Description': codes['description'],
-				'Code Type': codes['codeType'],
+				'Court Category': codes['courtCategory'], #C for circuit, G for general
+				'Code ID': codes['codeId'], 
+				'Code Description': codes['description'], #code description, ie 'White' for code 'W'
+				'Code Type': codes['codeType'] #variable code is describing
 				}			
+	
 
 class court_codes(scrapy.Spider):
+	#codes for each court based on fips of county/city
 	name = "court_codes"
 
 	start_urls = ["https://eapps.courts.state.va.us/ocis-rest/api/public/getLookupCodeDetails"]
@@ -36,6 +34,6 @@ class court_codes(scrapy.Spider):
 		court_details = response.json()['context']['entity']['payload']['allCourts']
 		for court in court_details:
 			yield{
-				'Court Name': court['courtName'],
-				'Court ID': court['fipsCode4']
+				'Court Name': court['courtName'], #actual name of court, like Accomack Circuit Court
+				'Court ID': court['fipsCode4'] #court code used in website, like '001C'
 				}		

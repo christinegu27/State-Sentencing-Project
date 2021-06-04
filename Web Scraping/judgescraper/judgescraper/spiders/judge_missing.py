@@ -1,4 +1,4 @@
-#for courts that got skipped with the other spider
+#for courts that got skipped with the main judges spider
 import scrapy
 
 class JudgeSpider(scrapy.Spider):
@@ -30,10 +30,12 @@ class JudgeSpider(scrapy.Spider):
 	"https://web.archive.org/web/20040918095514/http://www.courts.state.va.us/courts/circuit/York_County_Poquoson/home.html"]
 
 	def parse(self, response):
-		year = response.css("td.c")[2].attrib["title"][-4:]
+		year = response.css("td.c")[2].attrib["title"][-4:] #gets year of wayback maching capture
+		#gets court that judges belong to
 		try:
+			#for psot-2005 website format
 			court = response.xpath('//h1').extract()[0].split("\n")[1].strip()
-		except IndexError: # old website format
+		except IndexError: #old website format
 			court = response.xpath('//*[@valign = "middle"]//font[@size = "6"]//text()').extract_first()
 			court = court[1:-1]
 
@@ -55,8 +57,8 @@ class JudgeSpider(scrapy.Spider):
 					"Court": court
 					}
 
-		next_page = response.css("td.f a")[2].attrib["href"]
+		next_page = response.css("td.f a")[2].attrib["href"] 
 
-		if next_page:
+		if next_page: #follow next page link
 			yield scrapy.Request(next_page, callback = self.parse)
 	
