@@ -8,7 +8,7 @@ The two spiders that scrape the codes used in the Virginia Case Information Syst
 
 The spider used to actually get the case information is run from a script instead of "scrapy crawl". In the terminal, navigate to the folder containing the `run_spiders.py` file (.../case_info/case_info), then run the script like normal with the command "python run_spiders.py" or "python3 run_spiders.py" depending on how many versions of python are installed. 
 
-![](images/run_spiders.png)
+![run case spiders](images/run_spiders.png)
 
 One spider for each circuit court will be created, so at the beginning, 119 spiders should be running concurrently, but the smaller courts will finish much faster and close on their own. As each spider runs, it will be yielding data to its own csv file for 119 csv files in total. Once all the courts are done, which will probably takes about 2 weeks, run the `case_matcher.py` script located in the CSV Processing folder to format the cases and create the database.
 
@@ -16,7 +16,7 @@ One spider for each circuit court will be created, so at the beginning, 119 spid
 
 The spiders in the judgescraper project can be run with "scrapy crawl" as seen below. 
 
-![](images/scrapy_crawl.png)
+![run judge spiders](images/scrapy_crawl.png)
 
 The "judges" spider will get judges for most of the courts, and the "judges_missing" spider will get the remaining ~20 courts that were missing. Once the two spiders are done running, `process_judges.py` will convert the judge names into their IDs and combine the separate list from each spider into one judges.csv file.
 
