@@ -93,7 +93,7 @@ def data_visualizer(df):
 data_visualizer(chester)
 ```
 
-![plot](images/demo_graph.PNG)
+![plot](images/demo_graph.png)
 
 From this graph, some trends can be found that wouldn't have been possible (at least without some extremely tedious manual searching) with the online case system. The number of sentenced cases appears to be increasing over time in Chesterfield County until dropping very recently, possibly due the closures caused by Covid-19. 
 
@@ -109,19 +109,6 @@ top_judges.rename(columns = {"Case Number":"Number of Cases"}).head(10)
 ```
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
