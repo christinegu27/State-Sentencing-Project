@@ -22,7 +22,7 @@ The "judges" spider will get judges for most of the courts, and the "judges_miss
 
 # Demo
 
-The database file is too large to actually include in this repository, so here's a quick demo using it instead.
+The database file is inside cases.zip for download, and here's a quick demo using it.
 
 ```python
 import sqlite3 
