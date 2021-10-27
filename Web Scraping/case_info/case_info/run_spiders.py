@@ -17,7 +17,7 @@ settings['FEED_URI'] = ''
 process = CrawlerProcess(settings)
 
 #load in list of circuit courts
-url = "https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/Web%20Scraping/case_info/courts.csv"
+url = "https://github.com/christinegu27/State-Sentencing-Project/blob/main/CSV%20Processing/courts.csv"
 courts = pd.read_csv(url)
 
 for court in courts["Court ID"]:
