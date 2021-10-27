@@ -18,7 +18,7 @@ process = CrawlerProcess(settings)
 
 #load in list of circuit courts
 url = "https://github.com/christinegu27/State-Sentencing-Project/blob/main/CSV%20Processing/courts.csv"
-courts = pd.read_csv(url)
+courts = pd.read_csv(url,error_bad_lines=False)
 
 for court in courts["Court ID"]:
 	#create separate CSV file for each court
