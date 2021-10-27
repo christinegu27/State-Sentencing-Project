@@ -2,6 +2,7 @@ import scrapy
 import pandas as pd
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
+import spiders.case_scraper
 from spiders.case_scraper import CaseSpider
 
 def court_crawl(process, court_code):
