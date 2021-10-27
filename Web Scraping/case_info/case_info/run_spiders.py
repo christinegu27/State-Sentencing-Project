@@ -16,11 +16,13 @@ settings['FEED_URI'] = ''
 #creates a crawler process with given settings
 process = CrawlerProcess(settings)
 
-#load in list of circuit courts
-url = "https://github.com/christinegu27/State-Sentencing-Project/blob/main/CSV%20Processing/courts.csv"
-courts = pd.read_csv(url,error_bad_lines=False)
+# #load in list of circuit courts
+# url = "https://github.com/christinegu27/State-Sentencing-Project/blob/main/CSV%20Processing/courts.csv"
+# courts = pd.read_csv(url,error_bad_lines=False)
 
-for court in courts["Court ID"]:
+courts = ["Accomack", "Albemarle", "Alleghany", "Amelia", "Amherst", "Appomattox", "Arlington"]
+
+for court in courts:
 	#create separate CSV file for each court
 	settings.update({'FEED_URI': court + ".csv"})
 	court_crawl(process, court_code = court)
