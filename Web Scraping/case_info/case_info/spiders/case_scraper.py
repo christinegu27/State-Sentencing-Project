@@ -155,10 +155,10 @@ class CaseSpider(scrapy.Spider):
 		except KeyError:
 			judge = "N/A"
 
-		try: #checks if case stored the presiding judge's ID (initials)
-			attorney = case_details['caseParticipant'][1]['attorneyDetails']['attorneyName']['fullName']
-		except KeyError:
-			attorney = "N/A"
+# 		try: #checks if case stored the presiding judge's ID (initials)
+# 			attorney = case_details['caseParticipant'][1]['attorneyDetails']['attorneyName']['fullName']
+# 		except KeyError:
+# 			attorney = "N/A"
 
 
 		yield{
@@ -171,7 +171,7 @@ class CaseSpider(scrapy.Spider):
 			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'), #charge class (O, class 1, 2, etc.)
 			#specific charge code as detailed in official "Code of Virginia"
 			'Charge Code Section': case_details['caseCharge']['offenseDate'], 
-			'Offense Date': case_details['caseCharge'][charge].get('codeSection'), 
+# 			'Offense Date': case_details['caseCharge'][charge].get('codeSection'), 
 			'Concluded By': case_details['disposition']['concludedByCode'], #guilty plea, trial with jury, etc.
 			'Sentence Y': sentence.get('years'),
 			'Sentence M': sentence.get('months'),
@@ -182,7 +182,7 @@ class CaseSpider(scrapy.Spider):
 			'Probation D':probation_days,
 			'Race': case_details['caseParticipant'][0]['personalDetails'].get('race'), 
 			'Gender': case_details['caseParticipant'][0]['personalDetails'].get('gender'),
-			'Birth date': case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate'),
+# 			'Birth date': case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate'),
 			'Judge': judge,
-			'Attorney': attorney
+# 			'Attorney': attorney
 			}
