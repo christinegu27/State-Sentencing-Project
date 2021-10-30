@@ -20,7 +20,7 @@ process = CrawlerProcess(settings)
 # url = "https://github.com/christinegu27/State-Sentencing-Project/blob/main/CSV%20Processing/courts.csv"
 # courts = pd.read_csv(url,error_bad_lines=False)
 
-courts = ["001C", "005C"]
+courts = ["045C"]
 
 for court in courts:
 	#create separate CSV file for each court
