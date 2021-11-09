@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #read in courts and judges
-court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts.csv")
+court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts_finished.csv")
 judges = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/judges.csv")
 #dictionary for replacing the court id with the court name
 court_code = dict(court_list[["Court ID", "Court Name"]].values)
