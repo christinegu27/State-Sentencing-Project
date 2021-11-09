@@ -155,8 +155,8 @@ class CaseSpider(scrapy.Spider):
 		except KeyError:
 			judge = "N/A"
 
-		try: #checks if case stored the presiding judge's ID (initials)
-			attorney = case_details['caseParticipant'][1]['attorneyDetails']['attorneyName']['fullName']
+		try: #checks if case stored the case's attorney 
+			attorney = case_details['caseParticipant'][0]['attorneyDetails'][0]['attorneyName']['fullName']
 		except KeyError:
 			attorney = "N/A"
 
@@ -170,8 +170,8 @@ class CaseSpider(scrapy.Spider):
 			'Charge Code': case_details['caseCharge'][charge].get('caseTypeCode'), #either Felony or Misdeamor
 			'Charge Class': (case_details['caseCharge'][charge]).get('classCode'), #charge class (O, class 1, 2, etc.)
 			#specific charge code as detailed in official "Code of Virginia"
-			'Charge Code Section': case_details['caseCharge']['offenseDate'], 
-			'Offense Date': case_details['caseCharge'][charge].get('codeSection'), 
+			'Offense Date': case_details['caseCharge']['offenseDate'], 
+			'Charge Code Section': case_details['caseCharge'][charge].get('codeSection'), 
 			'Concluded By': case_details['disposition']['concludedByCode'], #guilty plea, trial with jury, etc.
 			'Sentence Y': sentence.get('years'),
 			'Sentence M': sentence.get('months'),
