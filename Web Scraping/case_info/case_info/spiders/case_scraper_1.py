@@ -1,4 +1,5 @@
 import scrapy
+import pandas as pd
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"
@@ -23,10 +24,12 @@ class CaseSpider(scrapy.Spider):
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
-		
-	courts = 
 
-	list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
+	url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
+
+	courts = pd.read_csv(url)
+
+	dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
 
 	def search(self, response):
 		"""
