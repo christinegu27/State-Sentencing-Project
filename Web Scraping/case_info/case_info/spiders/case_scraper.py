@@ -53,33 +53,36 @@ class CaseSpider(scrapy.Spider):
 		"""
 		#add letter and try new combo if too many records records returned
 		#continues looping until letters return less than 9960 results
-		if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
-			for extra_letter in CaseSpider.letters:				
-				base_name = search_name
-				current_search = search_name+extra_letter
-				yield scrapy.http.JsonRequest(
-					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
-					data = {"courtLevels":["C"], 
-							"divisions":["Criminal/Traffic"],
-							"selectedCourts":[self.court],
-							"searchBy":"N",
-							"searchString":[current_search],
-							"endingIndex":9930}, 
-					callback = self.check_results,
-					cb_kwargs = dict(search_name = current_search))
-		else: 
-			yield scrapy.http.JsonRequest(
-					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
-					data = {"courtLevels":["C"], 
+		try:
+			if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
+				for extra_letter in CaseSpider.letters:				
+					base_name = search_name
+					current_search = search_name+extra_letter
+					yield scrapy.http.JsonRequest(
+						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+						method = "POST",
+						data = {"courtLevels":["C"], 
 								"divisions":["Criminal/Traffic"],
 								"selectedCourts":[self.court],
 								"searchBy":"N",
-								"searchString":[search_name],
-								"endingIndex":0},
-					callback = self.parse_cases,
-					cb_kwargs = dict(search_name = search_name))
+								"searchString":[current_search],
+								"endingIndex":9930}, 
+						callback = self.check_results,
+						cb_kwargs = dict(search_name = current_search))
+			else: 
+				yield scrapy.http.JsonRequest(
+						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+						method = "POST",
+						data = {"courtLevels":["C"], 
+									"divisions":["Criminal/Traffic"],
+									"selectedCourts":[self.court],
+									"searchBy":"N",
+									"searchString":[search_name],
+									"endingIndex":0},
+						callback = self.parse_cases,
+						cb_kwargs = dict(search_name = search_name))
+		except KeyError: 
+			print(response.json(),search_name,sep=' and ')
 
 	def parse_cases(self, response, search_name):
 		"""
