@@ -39,7 +39,7 @@ class CaseSpider(scrapy.Spider):
 						data = {"courtLevels":["C"], #searching circuit courts only
 								"divisions":["Criminal/Traffic"], #limiting search to Criminal/Traffic cases only
 								"selectedCourts":[self.court], #open to all available courts in Virginia
-								"searchBy":"N", #searching by name (not case number of date)
+								"searchBy":"N", #searching by name (not case number or date)
 								"searchString": [search],
 								"endingIndex" : 9930}, #jumps straight to the end 
 						callback = self.check_results,

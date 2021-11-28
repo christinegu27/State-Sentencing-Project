@@ -12,6 +12,10 @@ BOT_NAME = 'case_info'
 SPIDER_MODULES = ['case_info.spiders']
 NEWSPIDER_MODULE = 'case_info.spiders'
 
+DOWNLOADER_MIDDLEWARES = {'scrapy_zyte_smartproxy.ZyteSmartProxyMiddleware': 610}
+ZYTE_SMARTPROXY_ENABLED = True
+ZYTE_SMARTPROXY_APIKEY = '5c80ab581940400eb78802469bcb78a1'
+
 #CLOSESPIDER_PAGECOUNT = 100
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -27,7 +31,7 @@ DOWNLOAD_DELAY = 3
 
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
-CONCURRENT_REQUESTS_PER_IP = 16
+# CONCURRENT_REQUESTS_PER_IP = 16
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
