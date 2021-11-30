@@ -22,7 +22,8 @@ class CaseSpider(scrapy.Spider):
 		"""
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
-			callback = self.search)
+			callback = self.search,
+			meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"})
 
 	def search(self, response):
 		"""
@@ -42,6 +43,7 @@ class CaseSpider(scrapy.Spider):
 								"searchBy":"N", #searching by name (not case number of date)
 								"searchString": [search],
 								"endingIndex" : 9930}, #jumps straight to the end 
+						meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 						callback = self.check_results,
 						cb_kwargs = dict(search_name = search)) #saves current search string for later use
 		
@@ -66,18 +68,20 @@ class CaseSpider(scrapy.Spider):
 							"searchBy":"N",
 							"searchString":[current_search],
 							"endingIndex":9930}, 
+							meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 					callback = self.check_results,
 					cb_kwargs = dict(search_name = current_search))
 		else: 
 			yield scrapy.http.JsonRequest(
 					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
+h					method = "POST",
 					data = {"courtLevels":["C"], 
 								"divisions":["Criminal/Traffic"],
 								"selectedCourts":[self.court],
 								"searchBy":"N",
 								"searchString":[search_name],
 								"endingIndex":0},
+								meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 					callback = self.parse_cases,
 					cb_kwargs = dict(search_name = search_name))
 
@@ -99,6 +103,7 @@ class CaseSpider(scrapy.Spider):
 				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/getCaseDetails",
 				method = "POST",
 				data = case, #each entry is the json data in the request sent for more details 
+				meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 				callback = self.case_details)
 
 		#checks if there are more results to be loaded
@@ -115,6 +120,7 @@ class CaseSpider(scrapy.Spider):
 						"searchBy":"N",
 						"searchString":[search_name],
 						"endingIndex":last_index}, #sends new request loading next set of results
+						meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 				callback = self.parse_cases,
 				cb_kwargs = dict(search_name = search_name))
 
