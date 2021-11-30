@@ -86,7 +86,7 @@ class CaseSpider(scrapy.Spider):
 						callback = self.parse_cases,
 						cb_kwargs = dict(search_name = search_name))
 		except KeyError:
-			print("there's an error here")
+			print(response.json()['context'])
 			return
 
 	def parse_cases(self, response, search_name):
