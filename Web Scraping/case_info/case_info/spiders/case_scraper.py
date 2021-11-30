@@ -25,17 +25,18 @@ class CaseSpider(scrapy.Spider):
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
 
-	url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
-
-	courts = pd.read_csv(url)
-
-	dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
-
 	def search(self, response):
 		"""
 		Sends request to generate cases matching a specified search.
 		Starts sith all possible 2 letter permutations.
 		"""
+		
+		url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
+
+		courts = pd.read_csv(url)
+
+		dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
+
 		for date in dates:
 			search = date 
 				#finds cases where the first or middle or last name starts with the search string given
@@ -75,17 +76,17 @@ class CaseSpider(scrapy.Spider):
 		# 			callback = self.check_results,
 		# 			cb_kwargs = dict(search_date = current_search))
 		# else: 
-			yield scrapy.http.JsonRequest(
-					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-					method = "POST",
-					data = {"courtLevels":["C"], 
-								"divisions":["Criminal/Traffic"],
-								"selectedCourts":[self.court],
-								"searchBy":"HD",
-								"searchString":[search_date],
-								"endingIndex":0},
-					callback = self.parse_cases,
-					cb_kwargs = dict(search_date = search_date))
+		yield scrapy.http.JsonRequest(
+				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+				method = "POST",
+				data = {"courtLevels":["C"], 
+							"divisions":["Criminal/Traffic"],
+							"selectedCourts":[self.court],
+							"searchBy":"HD",
+							"searchString":[search_date],
+							"endingIndex":0},
+				callback = self.parse_cases,
+				cb_kwargs = dict(search_date = search_date))
 
 	def parse_cases(self, response, search_date):
 		"""
