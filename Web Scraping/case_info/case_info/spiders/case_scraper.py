@@ -24,7 +24,7 @@ class CaseSpider(scrapy.Spider):
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
-		
+
 	search = ""
 
 	def search(self, response):
@@ -195,5 +195,5 @@ class CaseSpider(scrapy.Spider):
 			'Birth date': case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate'),
 			'Judge': judge,
 			'Attorney': attorney,
-			'Seaarch Date Used' : self.search
+			'Seaarch Date Used' : search
 			}
