@@ -1,4 +1,5 @@
 import scrapy
+import pandas as pd
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"
@@ -22,78 +23,75 @@ class CaseSpider(scrapy.Spider):
 		"""
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
-			callback = self.search,
-			meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"})
+			callback = self.search)
+
+	url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
+
+	courts = pd.read_csv(url)
+
+	dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
 
 	def search(self, response):
 		"""
 		Sends request to generate cases matching a specified search.
 		Starts sith all possible 2 letter permutations.
 		"""
-		for letter1 in CaseSpider.letters:
-			for letter2 in CaseSpider.letters:
-				search = letter1+letter2 
+		for date in dates:
+			search = date 
 				#finds cases where the first or middle or last name starts with the search string given
-				yield scrapy.http.JsonRequest(
-						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-						method = "POST",
-						data = {"courtLevels":["C"], #searching circuit courts only
+			yield scrapy.http.JsonRequest(
+					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+					method = "POST",
+					data = {"courtLevels":["C"], #searching circuit courts only
 								"divisions":["Criminal/Traffic"], #limiting search to Criminal/Traffic cases only
 								"selectedCourts":[self.court], #open to all available courts in Virginia
-								"searchBy":"N", #searching by name (not case number of date)
+								"searchBy":"HD", #searching by name (not case number or date)
 								"searchString": [search],
 								"endingIndex" : 9930}, #jumps straight to the end 
-						#meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
-						callback = self.check_results,
-						cb_kwargs = dict(search_name = search)) #saves current search string for later use
+					callback = self.check_results,
+					cb_kwargs = dict(search_date = search)) #saves current search string for later use
 		
-	def check_results(self, response, search_name):
+	def check_results(self, response, search_date):
 		"""
 		Checks if current search string returns too many results and repeats search after adding
 		another letter. If not too many results, calls function to start parsing cases.
-		search_name: current search name string passed from request
+		search_date: current search name string passed from request
 		"""
 		#add letter and try new combo if too many records records returned
 		#continues looping until letters return less than 9960 results
-		try: 
-			if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
-				for extra_letter in CaseSpider.letters:				
-					base_name = search_name
-					current_search = search_name+extra_letter
-					yield scrapy.http.JsonRequest(
-						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-						method = "POST",
-						data = {"courtLevels":["C"], 
+		# if 'hasMoreRecords' in response.json()['context']['entity']['payload']:
+		# 	for extra_letter in CaseSpider.letters:				
+		# 		base_name = search_date
+		# 		current_search = search_date+extra_letter
+		# 		yield scrapy.http.JsonRequest(
+		# 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+		# 			method = "POST",
+		# 			data = {"courtLevels":["C"], 
+		# 					"divisions":["Criminal/Traffic"],
+		# 					"selectedCourts":[self.court],
+		# 					"searchBy":"N",
+		# 					"searchString":[current_search],
+		# 					"endingIndex":9930}, 
+		# 			callback = self.check_results,
+		# 			cb_kwargs = dict(search_date = current_search))
+		# else: 
+			yield scrapy.http.JsonRequest(
+					url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+					method = "POST",
+					data = {"courtLevels":["C"], 
 								"divisions":["Criminal/Traffic"],
 								"selectedCourts":[self.court],
-								"searchBy":"N",
-								"searchString":[current_search],
-								"endingIndex":9930}, 
-								#meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
-						callback = self.check_results,
-						cb_kwargs = dict(search_name = current_search))
-			else: 
-				yield scrapy.http.JsonRequest(
-						url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-						method = "POST",
-						data = {"courtLevels":["C"], 
-									"divisions":["Criminal/Traffic"],
-									"selectedCourts":[self.court],
-									"searchBy":"N",
-									"searchString":[search_name],
-									"endingIndex":0},
-									#meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
-						callback = self.parse_cases,
-						cb_kwargs = dict(search_name = search_name))
-		except KeyError:
-			print(response.json()['context'])
-			return
+								"searchBy":"HD",
+								"searchString":[search_date],
+								"endingIndex":0},
+					callback = self.parse_cases,
+					cb_kwargs = dict(search_date = search_date))
 
-	def parse_cases(self, response, search_name):
+	def parse_cases(self, response, search_date):
 		"""
 		Gathers case results and sends request to get more details. If there are more
 		results, imitate a "load more" button by requesting the next set of cases
-		search_name: current name string being searched
+		search_date: current name string being searched
 		"""
 		#no results returned for the given search
 		if response.json()['context']['entity']['payload']['noOfRecords'] == 0:
@@ -107,7 +105,6 @@ class CaseSpider(scrapy.Spider):
 				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/getCaseDetails",
 				method = "POST",
 				data = case, #each entry is the json data in the request sent for more details 
-				#meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 				callback = self.case_details)
 
 		#checks if there are more results to be loaded
@@ -121,12 +118,11 @@ class CaseSpider(scrapy.Spider):
 				data = {"courtLevels":["C"],
 						"divisions":["Criminal/Traffic"],
 						"selectedCourts":[self.court],
-						"searchBy":"N",
-						"searchString":[search_name],
+						"searchBy":"HD",
+						"searchString":[search_date],
 						"endingIndex":last_index}, #sends new request loading next set of results
-						#meta={"proxy": "http://5c80ab581940400eb78802469bcb78a1:@proxy.crawlera.com:8011/"},
 				callback = self.parse_cases,
-				cb_kwargs = dict(search_name = search_name))
+				cb_kwargs = dict(search_date = search_date))
 
 	def case_details(self, response):
 		"""
@@ -194,5 +190,6 @@ class CaseSpider(scrapy.Spider):
 			'Gender': case_details['caseParticipant'][0]['personalDetails'].get('gender'),
 			'Birth date': case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate'),
 			'Judge': judge,
-			'Attorney': attorney
+			'Attorney': attorney,
+			'Seaarch Date Used' : search_date
 			}
