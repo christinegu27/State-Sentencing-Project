@@ -53,9 +53,10 @@ class CaseSpider(scrapy.Spider):
 								"selectedCourts":[self.court], #open to all available courts in Virginia
 								"searchBy":"HD", #searching by name (not case number or date)
 								"searchString": [search],
-								"endingIndex" : 9930}, #jumps straight to the end 
+								"endingIndex" : 0}, #jumps straight to the end 
 					callback = self.parse_cases,
 					cb_kwargs = dict(search_date = search)) #saves current search string for later use
+			print(search)
 		
 	# def check_results(self, response, search_date):
 		"""
