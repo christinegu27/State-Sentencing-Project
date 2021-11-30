@@ -39,6 +39,8 @@ class CaseSpider(scrapy.Spider):
 
 		dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
 
+		dates.sort()
+
 		for date in dates:
 			global search
 			search = date 
