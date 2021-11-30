@@ -24,13 +24,15 @@ class CaseSpider(scrapy.Spider):
 		yield scrapy.Request(
 			url = "https://eapps.courts.state.va.us/ocis-rest/api/public/termsAndCondAccepted",
 			callback = self.search)
+		
+	search = ""
 
 	def search(self, response):
 		"""
 		Sends request to generate cases matching a specified search.
 		Starts sith all possible 2 letter permutations.
 		"""
-		
+
 		url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
 
 		courts = pd.read_csv(url)
@@ -38,6 +40,7 @@ class CaseSpider(scrapy.Spider):
 		dates = list(courts[courts["Court ID"]==self.court]["Last Hearing Date"])
 
 		for date in dates:
+			global search
 			search = date 
 				#finds cases where the first or middle or last name starts with the search string given
 			yield scrapy.http.JsonRequest(
@@ -192,5 +195,5 @@ class CaseSpider(scrapy.Spider):
 			'Birth date': case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate'),
 			'Judge': judge,
 			'Attorney': attorney,
-			'Seaarch Date Used' : search_date
+			'Seaarch Date Used' : self.search
 			}
