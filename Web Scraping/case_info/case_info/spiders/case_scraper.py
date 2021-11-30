@@ -54,10 +54,10 @@ class CaseSpider(scrapy.Spider):
 								"searchBy":"HD", #searching by name (not case number or date)
 								"searchString": [search],
 								"endingIndex" : 9930}, #jumps straight to the end 
-					callback = self.check_results,
+					callback = self.parse_cases,
 					cb_kwargs = dict(search_date = search)) #saves current search string for later use
 		
-	def check_results(self, response, search_date):
+	# def check_results(self, response, search_date):
 		"""
 		Checks if current search string returns too many results and repeats search after adding
 		another letter. If not too many results, calls function to start parsing cases.
@@ -81,17 +81,17 @@ class CaseSpider(scrapy.Spider):
 		# 			callback = self.check_results,
 		# 			cb_kwargs = dict(search_date = current_search))
 		# else: 
-		yield scrapy.http.JsonRequest(
-				url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
-				method = "POST",
-				data = {"courtLevels":["C"], 
-							"divisions":["Criminal/Traffic"],
-							"selectedCourts":[self.court],
-							"searchBy":"HD",
-							"searchString":[search_date],
-							"endingIndex":0},
-				callback = self.parse_cases,
-				cb_kwargs = dict(search_date = search_date))
+		# yield scrapy.http.JsonRequest(
+		# 		url = "https://eapps.courts.state.va.us/ocis-rest/api/public/search",
+		# 		method = "POST",
+		# 		data = {"courtLevels":["C"], 
+		# 					"divisions":["Criminal/Traffic"],
+		# 					"selectedCourts":[self.court],
+		# 					"searchBy":"HD",
+		# 					"searchString":[search_date],
+		# 					"endingIndex":0},
+		# 		callback = self.parse_cases,
+		# 		cb_kwargs = dict(search_date = search_date))
 
 	def parse_cases(self, response, search_date):
 		"""
