@@ -8,7 +8,7 @@ class CaseItem(scrapy.Item):
     case_number = scrapy.Field()
     name = scrapy.Field()
     court = scrapy.Field()
-    last_hearing_date = scrapy.Field(),
+    last_hearing_date = scrapy.Field()
     charge = scrapy.Field()
     charge_code = scrapy.Field()
     charge_class = scrapy.Field()
