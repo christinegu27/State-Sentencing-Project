@@ -1,5 +1,9 @@
 import scrapy
 
+class DatesItem(scrapy.Item):
+    court = scrapy.Field()
+    date = scrapy.Field()
+    
 class CaseItem(scrapy.Item):
     case_number = scrapy.Field()
     name = scrapy.Field()
@@ -24,6 +28,6 @@ class CaseItem(scrapy.Item):
     judge = scrapy.Field()
     attorney = scrapy.Field()
 #
-class DatesItem(scrapy.Item):
-    court = scrapy.Field()
-    date = scrapy.Field()
+# class DatesItem(scrapy.Item):
+#     court = scrapy.Field()
+#     date = scrapy.Field()
