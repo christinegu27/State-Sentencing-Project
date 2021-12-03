@@ -1,8 +1,6 @@
 import scrapy
 import pandas as pd
-from items import DatesItem
-# from items import CaseItem
-
+from items import CaseItem, DatesItem
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"
@@ -180,32 +178,32 @@ class CaseSpider(scrapy.Spider):
 		except KeyError:
 			attorney = "N/A"
 
-		# case_item = CaseItem()
+		case_item = CaseItem()
 
-		# case_item['case_number'] = case_details['caseTrackingID']
-		# case_item['name'] = case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'] #defendant name
-		# case_item['court'] = case_details['caseCourt']['fipsCode'] #circuit court code
-		# case_item['hearing'] = case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate']
-		# case_item['charge'] = case_details['caseCharge'][charge]['chargeDescriptionText']
-		# case_item['charge_code'] = case_details['caseCharge'][charge].get('caseTypeCode') #either Felony or Misdeamor
-		# case_item['charge_class'] = (case_details['caseCharge'][charge]).get('classCode') #charge class (O, class 1, 2, etc.)
-		# #specific charge code as detailed in official "Code of Virginia"
-		# case_item['offense_date'] = case_details['caseCharge']['offenseDate']
-		# case_item['charge_code_section'] = case_details['caseCharge'][charge].get('codeSection')
-		# case_item['concluded_by'] = case_details['disposition']['concludedByCode'] #guilty plea, trial with jury, etc.
-		# case_item['sentence_y'] = sentence.get('years')
-		# case_item['sentence_m'] = sentence.get('months')
-		# case_item['sentence_d'] = sentence.get('days')
-		# case_item['probation_type'] = probation_type # none granted, supervised, unsupervised, etc
-		# case_item['probation_y'] = probation_years
-		# case_item['probation_m'] = probation_months
-		# case_item['probation_d']= probation_days
-		# case_item['race'] = case_details['caseParticipant'][0]['personalDetails'].get('race')
-		# case_item['gender'] = case_details['caseParticipant'][0]['personalDetails'].get('gender')
-		# case_item['birth_date'] = case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate')
-		# case_item['judge'] = judge	
-		# case_item['attorney'] = attorney
+		case_item['case_number'] = case_details['caseTrackingID']
+		case_item['name'] = case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'] #defendant name
+		case_item['court'] = case_details['caseCourt']['fipsCode'] #circuit court code
+		case_item['hearing'] = case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate']
+		case_item['charge'] = case_details['caseCharge'][charge]['chargeDescriptionText']
+		case_item['charge_code'] = case_details['caseCharge'][charge].get('caseTypeCode') #either Felony or Misdeamor
+		case_item['charge_class'] = (case_details['caseCharge'][charge]).get('classCode') #charge class (O, class 1, 2, etc.)
+		#specific charge code as detailed in official "Code of Virginia"
+		case_item['offense_date'] = case_details['caseCharge']['offenseDate']
+		case_item['charge_code_section'] = case_details['caseCharge'][charge].get('codeSection')
+		case_item['concluded_by'] = case_details['disposition']['concludedByCode'] #guilty plea, trial with jury, etc.
+		case_item['sentence_y'] = sentence.get('years')
+		case_item['sentence_m'] = sentence.get('months')
+		case_item['sentence_d'] = sentence.get('days')
+		case_item['probation_type'] = probation_type # none granted, supervised, unsupervised, etc
+		case_item['probation_y'] = probation_years
+		case_item['probation_m'] = probation_months
+		case_item['probation_d']= probation_days
+		case_item['race'] = case_details['caseParticipant'][0]['personalDetails'].get('race')
+		case_item['gender'] = case_details['caseParticipant'][0]['personalDetails'].get('gender')
+		case_item['birth_date'] = case_details['caseParticipant'][0]['personalDetails'].get('maskedBirthDate')
+		case_item['judge'] = judge	
+		case_item['attorney'] = attorney
 
-		# yield case_item
+		yield case_item
 		# 'Seaarch Date Used' = search
 	
