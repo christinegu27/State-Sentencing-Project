@@ -1,5 +1,8 @@
 import scrapy
 import pandas as pd
+from case_info.items import DatesItem
+from case_info.items import CaseItem
+
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"

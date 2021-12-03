@@ -10,9 +10,9 @@ def court_crawl(process, court_code):
 	return process.crawl(CaseSpider, court_code)
 
 settings = get_project_settings()#gets project settings
-#sets up the output format
-settings['FEED_FORMAT'] = 'csv'
-settings['FEED_URI'] = ''
+# #sets up the output format
+# settings['FEED_FORMAT'] = 'csv'
+# settings['FEED_URI'] = ''
 #creates a crawler process with given settings
 process = CrawlerProcess(settings)
 
@@ -31,7 +31,7 @@ courts = ['091C']
 
 for court in courts:
 	#create separate CSV file for each court
-	settings.update({'FEED_URI': court + ".csv"})
+	# settings.update({'FEED_URI': court + ".csv"})
 	court_crawl(process, court_code = court)
 process.start() #starts the spiders crawling
 
