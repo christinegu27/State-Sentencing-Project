@@ -29,6 +29,11 @@ ROBOTSTXT_OBEY = True
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 3
 
+ITEM_PIPELINES = {
+    'case_info.pipelines.CasesPipeline': 800,
+    'case_info.pipelines.DatesPipeline': 300,
+}
+
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
