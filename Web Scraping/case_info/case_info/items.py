@@ -3,12 +3,12 @@ import scrapy
 class DatesItem(scrapy.Item):
     court = scrapy.Field()
     date = scrapy.Field()
-    
+
 class CaseItem(scrapy.Item):
     case_number = scrapy.Field()
     name = scrapy.Field()
     court = scrapy.Field()
-    hearing = scrapy.Field(),
+    last_hearing_date = scrapy.Field(),
     charge = scrapy.Field()
     charge_code = scrapy.Field()
     charge_class = scrapy.Field()

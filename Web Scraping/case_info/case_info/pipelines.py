@@ -1,6 +1,7 @@
 from itemadapter import ItemAdapter
 from scrapy.exporters import CsvItemExporter
 from items import CaseItem
+from items import DatesItem
 
 class CasesPipeline:
     # def from_crawler(cls, crawler):

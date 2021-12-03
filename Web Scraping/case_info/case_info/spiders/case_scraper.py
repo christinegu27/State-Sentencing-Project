@@ -1,6 +1,7 @@
 import scrapy
 import pandas as pd
-from items import CaseItem, DatesItem
+from items import DatesItem
+from items import CaseItem
 
 class CaseSpider(scrapy.Spider):
 	name = "cases_2"
@@ -183,7 +184,7 @@ class CaseSpider(scrapy.Spider):
 		case_item['case_number'] = case_details['caseTrackingID']
 		case_item['name'] = case_details['caseParticipant'][0]['contactInformation']['personName']['fullName'] #defendant name
 		case_item['court'] = case_details['caseCourt']['fipsCode'] #circuit court code
-		case_item['hearing'] = case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate']
+		case_item['last_hearing_date'] = case_details['caseHearing'][0]['courtActivityScheduleDay']['scheduleDate']
 		case_item['charge'] = case_details['caseCharge'][charge]['chargeDescriptionText']
 		case_item['charge_code'] = case_details['caseCharge'][charge].get('caseTypeCode') #either Felony or Misdeamor
 		case_item['charge_class'] = (case_details['caseCharge'][charge]).get('classCode') #charge class (O, class 1, 2, etc.)
