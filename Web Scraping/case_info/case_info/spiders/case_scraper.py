@@ -131,11 +131,11 @@ class CaseSpider(scrapy.Spider):
 						"endingIndex":last_index}, #sends new request loading next set of results
 				callback = self.parse_cases,
 				cb_kwargs = dict(search_date = search_date))
-		else: 
-			dates_finished = DatesItem()
-			dates_finished['date'] = search_date
-			dates_finished['court'] = self.court
-			yield dates_finished
+		# else: 
+		# 	dates_finished = DatesItem()
+		# 	dates_finished['date'] = search_date
+		# 	dates_finished['court'] = self.court
+		# 	yield dates_finished
 
 	def case_details(self, response):
 		"""

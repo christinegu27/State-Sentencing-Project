@@ -1,0 +1,274 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"gui",
+				"guidelines_cleaner"
+			],
+			[
+				"cleaned",
+				"cleaned_guidelines"
+			],
+			[
+				"cases",
+				"cases_cleaner"
+			],
+			[
+				"merged",
+				"merged_6"
+			],
+			[
+				"merged_2",
+				"merged_2_dups"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/hinaljajal/Downloads/scraper.py",
+		"/Users/hinaljajal/Desktop/final/download.php",
+		"/Users/hinaljajal/Desktop/final/dl.js",
+		"/Users/hinaljajal/Desktop/final/index.html",
+		"/Users/hinaljajal/Desktop/final/upload.php",
+		"/Users/hinaljajal/Desktop/final/clear_session.php",
+		"/Users/hinaljajal/Desktop/validate.php",
+		"/Users/hinaljajal/Desktop/index.php",
+		"/Users/hinaljajal/Desktop/final/final.js",
+		"/Users/hinaljajal/Desktop/final/indexx.html",
+		"/Users/hinaljajal/Desktop/hw5/index.php",
+		"/Users/hinaljajal/Desktop/hw7/display.php",
+		"/Users/hinaljajal/Desktop/q23.php",
+		"/Users/hinaljajal/Desktop/hw7/upload22.php",
+		"/Users/hinaljajal/Desktop/Hinal_Jajal_Final_Code.m",
+		"/Users/hinaljajal/Desktop/hw7/upload.php",
+		"/Users/hinaljajal/Desktop/animal.php",
+		"/Users/hinaljajal/Downloads/State-Sentencing-Project/CSV Processing/case_matcher.ipynb",
+		"/Users/hinaljajal/Desktop/methdology.md",
+		"/Users/hinaljajal/judges_ind/judges_ind/spiders/__init__.py",
+		"/Users/hinaljajal/Downloads/read-file-php/2-file-to-array.php",
+		"/Users/hinaljajal/Desktop/registered.txt",
+		"/Users/hinaljajal/Downloads/panel.js",
+		"/Users/hinaljajal/Desktop/HW4/index.html",
+		"/Users/hinaljajal/Downloads/hw4-2.php",
+		"/Users/hinaljajal/Downloads/hw4.php",
+		"/Users/hinaljajal/Downloads/RandomList.php",
+		"/Users/hinaljajal/Downloads/linear_spline_test.m",
+		"/Users/hinaljajal/Desktop/name2.js",
+		"/Users/hinaljajal/Desktop/HW4/panel.js",
+		"/Users/hinaljajal/Desktop/name2.html",
+		"/Users/hinaljajal/Desktop/name3.js",
+		"/Users/hinaljajal/Desktop/name3.html",
+		"/Users/hinaljajal/Desktop/name.js",
+		"/Users/hinaljajal/Desktop/name.html",
+		"/Users/hinaljajal/Desktop/panel.js",
+		"/Users/hinaljajal/Desktop/anim.html",
+		"/Users/hinaljajal/Downloads/newton.m",
+		"/Users/hinaljajal/Downloads/Inheritance.txt",
+		"/Users/hinaljajal/Downloads/Hinal_Jajal_MainDriver.m",
+		"/Users/hinaljajal/Downloads/secant.m",
+		"/Users/hinaljajal/Downloads/aitken.m",
+		"/Users/hinaljajal/Downloads/steffensen.m",
+		"/Users/hinaljajal/Downloads/modified_newton.m",
+		"/Users/hinaljajal/Downloads/hw2.m",
+		"/Users/hinaljajal/Downloads/fixed_point.m",
+		"/Users/hinaljajal/judgescraper/judgescraper/spiders/__init__.py",
+		"/Users/hinaljajal/Downloads/hinalsj.github.io/_posts/2021-04-29-HW-2.md",
+		"/Users/hinaljajal/Downloads/dom.js",
+		"/Users/hinaljajal/Desktop/q9.html",
+		"/Users/hinaljajal/Downloads/State-Sentencing-Project/WebScraping/judge_scraper.py",
+		"/Users/hinaljajal/case_scraper/case_scraper/spiders/judges.py",
+		"/Users/hinaljajal/Desktop/pic40_hw3/untitled.css",
+		"/Users/hinaljajal/Desktop/pic40_hw3/let msg = 'This is a JavaScript Calculator';.js",
+		"/Users/hinaljajal/Downloads/spectral-clustering/spectral-clustering.md",
+		"/hello.m",
+		"/hw2.m",
+		"/Users/hinaljajal/Desktop/HW2.html",
+		"/Users/hinaljajal/Downloads/untitled",
+		"/Users/hinaljajal/Downloads/Q2.css",
+		"/Users/hinaljajal/Desktop/Q2.css",
+		"/Users/hinaljajal/Desktop/ne1.css",
+		"/Users/hinaljajal/Desktop/q9.js",
+		"/Users/hinaljajal/Desktop/ne1.html",
+		"/Users/hinaljajal/Desktop/HW2.css",
+		"/Users/hinaljajal/Desktop/new.html",
+		"/Users/hinaljajal/Desktop/new.css",
+		"/Users/hinaljajal/Desktop/css3.html",
+		"/Users/hinaljajal/Desktop/css3.css",
+		"/Users/hinaljajal/Desktop/username: hinaljajal",
+		"/Users/hinaljajal/Desktop/Honesty.txt",
+		"/Users/hinaljajal/Desktop/index.html",
+		"/Users/hinaljajal/Desktop/z_index.txt",
+		"/Users/hinaljajal/Downloads/hinalsj.github.io/_posts/2021-03-31-HW-1.md",
+		"/Users/hinaljajal/Desktop/page1.css",
+		"/Users/hinaljajal/Desktop/q6.html",
+		"/Users/hinaljajal/lecture/lecture/spiders/lecture-scraper.py",
+		"/Users/hinaljajal/lecture/lecture/spiders/__init__.py",
+		"/Users/hinaljajal/Downloads/State-Sentencing-Project/README.md",
+		"/Users/hinaljajal/Downloads/hinalsj.github.io/_posts/2021-04-01- Blog0.md",
+		"/Users/hinaljajal/Downloads/snippet-Namespace/engmat.cpp",
+		"/Users/hinaljajal/Downloads/snippet-Namespace/engmat.h",
+		"/Users/hinaljajal/Downloads/snippet-Namespace/main.cpp",
+		"/Users/hinaljajal/Downloads/snippet-HelloWorld/main.cpp"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "settings.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"untitled"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
