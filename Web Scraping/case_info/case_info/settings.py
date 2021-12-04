@@ -31,8 +31,8 @@ DOWNLOAD_DELAY = 3
 
 ITEM_PIPELINES = {
     # 'case_info.pipelines.CasesPipeline': 800,
-    'case_info.pipelines.DatesPipeline': 300,
-    'case_info.pipelines.DaPipeline': 200,
+    'case_info.pipelines.CasesPipeline': 300
+    # 'case_info.pipelines.DaPipeline': 200,
 
 }
 
