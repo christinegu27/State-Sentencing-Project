@@ -41,15 +41,12 @@ class CasesPipeline:
             return self.court_to_exporter[court][0]
 
         elif isinstance(item,DatesItem):
-            adapter = ItemAdapter(item)
-            court = adapter['court']
-            court_date = f'{court}_date'
-            if court_date not in self.court_to_exporter:
-                csv_file = open(f'{court_date}.csv', 'wb')
+            if "dates" not in self.court_to_exporter:
+                csv_file = open('dates_finished.csv', 'wb')
                 exporter = CsvItemExporter(csv_file)
                 exporter.start_exporting()
-                self.court_to_exporter[court_date] = (exporter, csv_file)
-            return self.court_to_exporter[court_date][0]
+                self.court_to_exporter["dates"] = (exporter, csv_file)
+            return self.court_to_exporter["dates"][0]
 
     def process_item(self, item, spider):
         # if isinstance(item, CaseItem):
@@ -94,5 +91,3 @@ class CasesPipeline:
 #             print(item['date'])
 #             return item
 
-
-           
