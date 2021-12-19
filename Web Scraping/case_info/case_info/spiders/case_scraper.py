@@ -35,7 +35,7 @@ class CaseSpider(scrapy.Spider):
 		Starts sith all possible 2 letter permutations.
 		"""
 
-		url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/dates.csv'
+		url = 'https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/2020_dates.csv'
 
 		courts = pd.read_csv(url)
 
