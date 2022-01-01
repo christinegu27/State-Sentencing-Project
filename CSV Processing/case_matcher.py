@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #read in courts and judges
-court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts_finished.csv")
+court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts.csv")
 judges = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/judges.csv")
 #dictionary for replacing the court id with the court name
 court_code = dict(court_list[["Court ID", "Court Name"]].values)
@@ -66,7 +66,7 @@ conn = sqlite3.connect("cases.db") # create a database in current directory call
 separate_court_data = []
 for court in court_list["Court ID"]:
 #     data = pd.read_csv(f"C:/Users/chris/Documents/case data/finished courts 6.7.9.15/{court}.csv")
-    data = pd.read_csv(f"/Users/hinaljajal/Downloads/FinishedCourts/{court}.csv")
+    data = pd.read_csv(f"/Users/hinaljajal/all_cases_2017-2019/{court}.csv")
     data = map_values(data)
     #Slices the judges for the particular court 
     judges_court = judges[judges["Court Name"]==court_code[court]]
