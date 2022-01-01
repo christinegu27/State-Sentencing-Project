@@ -91,6 +91,6 @@ final_cases["Judge Full Name"].isna().mean() #0.3043542749138131
 # This means that we were able to match judges for 70% of the cases, which is great! We could improve this accuracy by looking into the inconsistencies in how some courts record their judges' initials.
 
 
-file_name = '/Users/hinaljajal/Downloads/final_cases.csv'
+file_name = '/Users/hinaljajal/final_cases_2017-19.csv'
 final_cases.to_csv(file_name, index = False)
 
