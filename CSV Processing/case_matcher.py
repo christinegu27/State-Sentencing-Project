@@ -7,23 +7,23 @@ warnings.filterwarnings('ignore')
 court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts.csv")
 judges = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/judges.csv")
 #dictionary for replacing the court id with the court name
-court_code = dict(court_list[["Court ID", "Court Name"]].values)
+court_code = dict(court_list[["Court Code", "Court Name"]].values)
 
 #Replace codes in the dataframe with their actual meaning
 #Ex. replace "W" with "White" for defendant race
 def map_values(df):
     
-    df = df.rename(columns = {'Charge Code':'Case Type'})#renamed for clarity
+    df = df.rename(columns = {'charge_code':'case_type'})#renamed for clarity
     #Fill in NaN values 
-    df['Race'] = df['Race'].fillna("U")
-    df['Sentence Y'] = df['Sentence Y'].fillna(0)
-    df['Sentence M'] = df['Sentence M'].fillna(0)
-    df['Sentence D'] = df['Sentence D'].fillna(0)
-    df['Probation D'] = df['Probation D'].fillna(0)
-    df['Probation Y'] = df['Probation Y'].fillna(0)
-    df['Probation M'] = df['Probation M'].fillna(0)
-    df["Charge Class"] = df['Charge Class'].fillna("Un")
-    df['Judge'] = df['Judge'].fillna("N/A") 
+    df['race'] = df['race'].fillna("U")
+    df['sentence_y'] = df['sentence_y'].fillna(0)
+    df['sentence_m'] = df['sentence_m'].fillna(0)
+    df['sentence_d'] = df['sentence_d'].fillna(0)
+    df['probation_d'] = df['probation_d'].fillna(0)
+    df['probation_y'] = df['probation_y'].fillna(0)
+    df['probation_m'] = df['probation_m'].fillna(0)
+    df["charge_class"] = df['charge_class'].fillna("U")
+    df['judge'] = df['judge'].fillna("N/A") 
     #Opens the csv containing the codes
     f = open(r"/Users/hinaljajal/Downloads/State-Sentencing-Project/CSV Processing/edited_codes.csv")
 #     f = open(r"C:\Users\chris\Documents\GitHub\State-Sentencing-Project\CSV Processing\edited_codes.csv")
@@ -46,10 +46,10 @@ def case_matcher(cases, judges_court):
     Returns:
     cases(dataframe): dataframe of cases with matched judges
     """
-    cases["Year"]=cases["Last Hearing Date"].str[-4:]
+    cases["year"]=cases["last_hearing_date"].str[-4:]
 
     #Merges the columns by the judge and the hearing year
-    cases['Year']=cases['Year'].astype(int)
+    cases['year']=cases['year'].astype(int)
     
     judges_court = judges_court.drop(['Year', 'Court Name'], axis = 1)
     judges_court = judges_court.drop_duplicates(subset = ['Judge'])
@@ -64,14 +64,14 @@ def case_matcher(cases, judges_court):
 import sqlite3
 conn = sqlite3.connect("cases.db") # create a database in current directory called cases.db
 separate_court_data = []
-for court in court_list["Court ID"]:
+for court in court_list["Court Code"]:
 #     data = pd.read_csv(f"C:/Users/chris/Documents/case data/finished courts 6.7.9.15/{court}.csv")
     data = pd.read_csv(f"/Users/hinaljajal/all_cases_2017-2019/{court}.csv")
     data = map_values(data)
     #Slices the judges for the particular court 
     judges_court = judges[judges["Court Name"]==court_code[court]]
     #replace court code with name, ie "001C" with "Accomack"
-    data["Court"] = court_code[court]
+    data["court"] = court_code[court]
     data = case_matcher(data, judges_court)
     data.to_sql("final_cases", conn, if_exists = "append", chunksize = 100000, index = False)
     separate_court_data.append(data) #add to list for concatenation
