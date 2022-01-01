@@ -4,7 +4,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #read in courts and judges
-court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts.csv")
+court_list = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/courts.csv",dtype={'Court Code': 'str'})
 judges = pd.read_csv("https://raw.githubusercontent.com/christinegu27/State-Sentencing-Project/main/CSV%20Processing/judges.csv")
 #dictionary for replacing the court id with the court name
 court_code = dict(court_list[["Court Code", "Court Name"]].values)
@@ -23,7 +23,7 @@ def map_values(df):
     df['probation_y'] = df['probation_y'].fillna(0)
     df['probation_m'] = df['probation_m'].fillna(0)
     df["charge_class"] = df['charge_class'].fillna("U")
-    df['judge'] = df['judge'].fillna("N/A") 
+    df['Judge'] = df['judge'].fillna("N/A") 
     #Opens the csv containing the codes
     f = open(r"/Users/hinaljajal/Downloads/State-Sentencing-Project/CSV Processing/edited_codes.csv")
 #     f = open(r"C:\Users\chris\Documents\GitHub\State-Sentencing-Project\CSV Processing\edited_codes.csv")
@@ -57,32 +57,34 @@ def case_matcher(cases, judges_court):
     cases = cases.merge(judges_court, how="left", on = ["Judge"])
     
     #dropping the name and second court name column
-    cases=cases.drop(['Name'], axis=1)
+    cases=cases.drop(['name'], axis=1)
         
     return cases
 
-import sqlite3
-conn = sqlite3.connect("cases.db") # create a database in current directory called cases.db
+#import sqlite3
+#conn = sqlite3.connect("cases.db") # create a database in current directory called cases.db
 separate_court_data = []
+#courts_ = ['001']
 for court in court_list["Court Code"]:
-#     data = pd.read_csv(f"C:/Users/chris/Documents/case data/finished courts 6.7.9.15/{court}.csv")
-    data = pd.read_csv(f"/Users/hinaljajal/all_cases_2017-2019/{court}.csv")
+#for court in courts_:
+   # data = pd.read_csv(f"C:/Users/chris/Documents/case data/finished courts 6.7.9.15/{court}.csv",dtype={'court': 'str'})
+    data = pd.read_csv(f"/Users/hinaljajal/all_cases_2017-2019/{court}.csv",dtype={'court': 'str'})
     data = map_values(data)
     #Slices the judges for the particular court 
     judges_court = judges[judges["Court Name"]==court_code[court]]
     #replace court code with name, ie "001C" with "Accomack"
     data["court"] = court_code[court]
     data = case_matcher(data, judges_court)
-    data.to_sql("final_cases", conn, if_exists = "append", chunksize = 100000, index = False)
+   #data.to_sql("final_cases", conn, if_exists = "append", chunksize = 100000, index = False)
     separate_court_data.append(data) #add to list for concatenation
     
 final_cases = pd.concat(separate_court_data, ignore_index = True)
-conn.close()
+#conn.close()
 
-import sqlite3
-conn = sqlite3.connect("cases.db")# create a database in current directory called cases.db
-final_cases.to_sql("final_cases", conn, if_exists = "replace",index = False)
-conn.close()
+#import sqlite3
+#conn = sqlite3.connect("cases.db")# create a database in current directory called cases.db
+#final_cases.to_sql("final_cases", conn, if_exists = "replace",index = False)
+#conn.close()
 
 
 final_cases["Judge Full Name"].isna().mean() #0.3043542749138131
